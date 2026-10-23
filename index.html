@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light" />
     <title>社内文書検索アシスタント | 設計ポートフォリオ</title>
     <meta
       name="description"
@@ -10,31 +11,25 @@
     />
     <style>
       :root {
-        --bg: #fafaf8;
+        color-scheme: light;
+        --bg: #f5faf8;
         --surface: #ffffff;
-        --text: #1f2328;
-        --muted: #5f6670;
-        --line: #e3e3de;
-        --accent: #1f5f4a;
-        --accent-soft: #e6f1ec;
+        --text: #1d2b27;
+        --muted: #5d6f69;
+        --line: #dcebe5;
+        --accent: #0f8f6f;
+        --accent-dark: #0b6e55;
+        --accent-soft: #e3f5ee;
         --warn: #8a5a00;
-        --warn-soft: #fbf1dc;
-      }
-      @media (prefers-color-scheme: dark) {
-        :root {
-          --bg: #14171a;
-          --surface: #1b1f23;
-          --text: #e8eaed;
-          --muted: #9aa3ad;
-          --line: #2d3339;
-          --accent: #6fcfa8;
-          --accent-soft: #1c2d27;
-          --warn: #e5b85c;
-          --warn-soft: #2b2515;
-        }
+        --warn-soft: #fff4d9;
+        --bad: #b3261e;
+        --bad-soft: #fdeceb;
       }
       * {
         box-sizing: border-box;
+      }
+      html {
+        color-scheme: light;
       }
       body {
         margin: 0;
@@ -46,41 +41,43 @@
         line-height: 1.8;
       }
       .wrap {
-        max-width: 860px;
+        max-width: 920px;
         margin: 0 auto;
         padding: 0 16px;
       }
       header.hero {
-        padding: 56px 0 32px;
+        padding: 56px 0 36px;
+        background: linear-gradient(180deg, #e3f5ee 0%, #f5faf8 100%);
         border-bottom: 1px solid var(--line);
       }
       .tag {
         display: inline-block;
         font-size: 12px;
-        color: var(--accent);
-        background: var(--accent-soft);
+        color: var(--accent-dark);
+        background: #fff;
+        border: 1px solid var(--line);
         padding: 2px 10px;
         border-radius: 999px;
         margin: 0 6px 6px 0;
       }
       h1 {
-        font-size: 28px;
+        font-size: 30px;
         line-height: 1.4;
         margin: 16px 0 12px;
       }
       h2 {
-        font-size: 21px;
-        margin: 0 0 12px;
+        font-size: 22px;
+        margin: 0 0 14px;
         padding-left: 12px;
         border-left: 4px solid var(--accent);
         line-height: 1.4;
       }
       h3 {
         font-size: 16px;
-        margin: 20px 0 6px;
+        margin: 22px 0 6px;
       }
       section {
-        padding: 40px 0;
+        padding: 44px 0;
         border-bottom: 1px solid var(--line);
       }
       p {
@@ -121,50 +118,67 @@
       th {
         background: var(--accent-soft);
         font-weight: 600;
+        white-space: nowrap;
       }
       .scroll {
         overflow-x: auto;
       }
-      figure {
-        margin: 20px 0;
+      ul {
+        padding-left: 1.2em;
+        margin: 0 0 12px;
       }
-      figure .frame {
-        position: relative;
+      li {
+        margin-bottom: 4px;
+      }
+      code {
+        background: #eef6f3;
+        padding: 1px 5px;
+        border-radius: 4px;
+        font-size: 13px;
+      }
+      .grid {
+        display: grid;
+        gap: 12px;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        margin: 16px 0;
+      }
+      .card {
+        background: var(--surface);
         border: 1px solid var(--line);
-        border-radius: 8px;
-        background: var(--surface);
-        min-height: 220px;
-        overflow: hidden;
+        border-radius: 10px;
+        padding: 12px 14px;
       }
-      figure .frame .ph {
-        position: absolute;
-        inset: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        padding: 16px;
+      .card .n {
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--accent-dark);
+        line-height: 1.2;
+      }
+      .card .l {
+        font-size: 12px;
         color: var(--muted);
-        font-size: 13px;
       }
-      figure .frame img {
-        position: relative;
-        display: block;
-        width: 100%;
-        height: auto;
-        background: var(--surface);
+      .cols {
+        display: grid;
+        gap: 12px;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        margin: 12px 0;
       }
-      figcaption {
-        font-size: 13px;
-        color: var(--muted);
-        margin-top: 6px;
+      .cols .card h4 {
+        margin: 0 0 4px;
+        font-size: 15px;
+      }
+      .cols .card .tagline {
+        font-size: 12px;
+        color: var(--accent-dark);
+        margin-bottom: 6px;
       }
       .flow {
         display: flex;
         flex-wrap: wrap;
         gap: 8px;
         align-items: stretch;
-        margin: 16px 0;
+        margin: 12px 0;
       }
       .flow .step {
         flex: 1 1 130px;
@@ -176,7 +190,7 @@
       }
       .flow .step b {
         display: block;
-        color: var(--accent);
+        color: var(--accent-dark);
         margin-bottom: 2px;
         font-size: 14px;
       }
@@ -184,13 +198,236 @@
         align-self: center;
         color: var(--muted);
       }
-      ul {
-        padding-left: 1.2em;
-        margin: 0 0 12px;
+      .lane {
+        margin: 18px 0 6px;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--accent-dark);
       }
-      li {
+      .steps {
+        counter-reset: s;
+        display: grid;
+        gap: 10px;
+        margin: 12px 0;
+        padding: 0;
+        list-style: none;
+      }
+      .steps li {
+        counter-increment: s;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 12px 14px 12px 52px;
+        position: relative;
+        margin: 0;
+      }
+      .steps li::before {
+        content: counter(s);
+        position: absolute;
+        left: 14px;
+        top: 12px;
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        background: var(--accent);
+        color: #fff;
+        text-align: center;
+        line-height: 26px;
+        font-size: 14px;
+        font-weight: 700;
+      }
+      .steps li b {
+        display: block;
+      }
+      .pill {
+        display: inline-block;
+        font-size: 11px;
+        padding: 1px 8px;
+        border-radius: 999px;
+        background: var(--accent-soft);
+        color: var(--accent-dark);
+      }
+      .pill.warn {
+        background: var(--warn-soft);
+        color: var(--warn);
+      }
+      .pill.bad {
+        background: var(--bad-soft);
+        color: var(--bad);
+      }
+
+      /* mock */
+      .mock {
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: var(--surface);
+        overflow: hidden;
+        margin: 16px 0;
+        box-shadow: 0 2px 10px rgba(15, 143, 111, 0.08);
+      }
+      .mock-bar {
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        padding: 10px 14px;
+        background: var(--accent-soft);
+        font-weight: 600;
+        font-size: 14px;
+      }
+      .mock-bar span {
+        font-weight: 400;
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .mock-body {
+        padding: 14px;
+      }
+      .mock-input {
+        display: flex;
+        gap: 8px;
+      }
+      .mock-input input {
+        flex: 1;
+        min-width: 0;
+        padding: 9px 10px;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        background: #fbfdfc;
+        color: var(--text);
+        font: inherit;
+        font-size: 14px;
+      }
+      .mock-input button {
+        padding: 9px 14px;
+        border: 0;
+        border-radius: 6px;
+        background: var(--accent);
+        color: #fff;
+        font: inherit;
+        font-size: 14px;
+      }
+      .mock-input button:disabled {
+        opacity: 0.5;
+      }
+      .samples {
+        margin: 10px 0 4px;
+      }
+      .samples .grp {
+        font-size: 12px;
+        color: var(--muted);
+        margin: 8px 0 4px;
+      }
+      .samples button,
+      .samples select,
+      .btn {
+        padding: 5px 10px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: #fff;
+        color: var(--text);
+        font: inherit;
+        font-size: 12px;
+        cursor: pointer;
+        margin: 0 4px 4px 0;
+      }
+      .samples button:hover,
+      .btn:hover {
+        border-color: var(--accent);
+      }
+      .samples button:disabled,
+      .samples select:disabled,
+      .btn:disabled {
+        opacity: 0.5;
+        cursor: default;
+      }
+      .btn.primary {
+        background: var(--accent);
+        color: #fff;
+        border-color: var(--accent);
+        padding: 8px 16px;
+        font-size: 14px;
+      }
+      .mock-out {
+        min-height: 150px;
+        border-top: 1px dashed var(--line);
+        padding-top: 12px;
+        font-size: 14px;
+        margin-top: 8px;
+      }
+      .pipe {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin: 0 0 12px;
+        padding: 0;
+        list-style: none;
+      }
+      .pipe li {
+        font-size: 12px;
+        padding: 3px 10px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        color: var(--muted);
+        background: #fff;
+        margin: 0;
+      }
+      .pipe li.on {
+        border-color: var(--accent);
+        color: var(--accent-dark);
+        background: var(--accent-soft);
+      }
+      .pipe li.skip {
+        text-decoration: line-through;
+        opacity: 0.55;
+      }
+      .src {
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        padding: 8px 10px;
+        margin: 8px 0;
+        background: #fbfdfc;
+      }
+      .src b {
+        display: block;
+        font-size: 12px;
+        color: var(--accent-dark);
+      }
+      .src q {
+        font-size: 13px;
+        quotes: none;
+      }
+      .box {
+        border-radius: 8px;
+        padding: 12px 14px;
+        background: var(--warn-soft);
+        color: var(--warn);
+        margin-bottom: 10px;
+      }
+      .box.bad {
+        background: var(--bad-soft);
+        color: var(--bad);
+      }
+      .box b {
+        display: block;
         margin-bottom: 4px;
       }
+      .log {
+        margin-top: 10px;
+        font-size: 12px;
+      }
+      .log summary {
+        cursor: pointer;
+        color: var(--accent-dark);
+      }
+      .log table {
+        font-size: 12px;
+      }
+      .log td:first-child {
+        white-space: nowrap;
+        color: var(--muted);
+        width: 1%;
+      }
+
       footer {
         padding: 32px 0 56px;
         font-size: 13px;
@@ -198,33 +435,12 @@
       }
       @media (max-width: 560px) {
         h1 {
-          font-size: 23px;
+          font-size: 24px;
         }
         .flow .arrow {
           display: none;
         }
       }
-    
-      .mock { border: 1px solid var(--line); border-radius: 10px; background: var(--surface); overflow: hidden; margin: 16px 0; }
-      .mock-bar { display: flex; justify-content: space-between; gap: 8px; padding: 10px 14px; background: var(--accent-soft); font-weight: 600; font-size: 14px; }
-      .mock-bar span { font-weight: 400; font-size: 12px; color: var(--muted); }
-      .mock-body { padding: 14px; }
-      .mock-input { display: flex; gap: 8px; }
-      .mock-input input { flex: 1; min-width: 0; padding: 9px 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--text); font: inherit; font-size: 14px; }
-      .mock-input button { padding: 9px 14px; border: 0; border-radius: 6px; background: var(--accent); color: var(--bg); font: inherit; font-size: 14px; }
-      .mock-input button:disabled { opacity: 0.5; }
-      .mock-samples { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; }
-      .mock-samples button { padding: 5px 10px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--text); font: inherit; font-size: 12px; cursor: pointer; }
-      .mock-samples button:hover { border-color: var(--accent); }
-      .mock-samples button:disabled { opacity: 0.5; cursor: default; }
-      .mock-out { min-height: 120px; border-top: 1px dashed var(--line); padding-top: 12px; font-size: 14px; }
-      .mock-out .spin { color: var(--muted); }
-      .mock-out .src { border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; margin: 8px 0; background: var(--bg); }
-      .mock-out .src b { display: block; font-size: 12px; color: var(--accent); }
-      .mock-out .src q { font-size: 13px; quotes: none; }
-      .mock-out .box { border-radius: 8px; padding: 12px 14px; background: var(--warn-soft); color: var(--warn); }
-      .mock-out .box b { display: block; margin-bottom: 4px; }
-      .mock-out .kind { font-size: 12px; opacity: 0.8; }
     </style>
   </head>
   <body>
@@ -233,7 +449,8 @@
         <span class="tag">RAG(ベクトル検索)</span><span class="tag">Claude</span
         ><span class="tag">OpenAI Embeddings</span
         ><span class="tag">Supabase / pgvector</span
-        ><span class="tag">TypeScript</span>
+        ><span class="tag">Next.js / TypeScript</span
+        ><span class="tag">2026年10月</span>
         <h1>
           社内文書検索アシスタント<br />根拠つきで答え、根拠が無いときは答えを作らない
         </h1>
@@ -243,6 +460,27 @@
         <p class="note">
           このページは設計と検証の記録です。画面・文書名・数値はすべてダミーで、実在の企業や文書とは関係ありません。ソースコードは公開していません。
         </p>
+        <div class="grid">
+          <div class="card">
+            <div class="n">6</div>
+            <div class="l">受け入れ基準(F-1〜F-6)</div>
+          </div>
+          <div class="card">
+            <div class="n">9</div>
+            <div class="l">想定した失敗の種類</div>
+          </div>
+          <div class="card">
+            <div class="n">5</div>
+            <div class="l">「答えない」を確かめる対象外の問い</div>
+          </div>
+          <div class="card">
+            <div class="n">9</div>
+            <div class="l">1回ごとに記録する項目(本文は残さない)</div>
+          </div>
+        </div>
+        <p class="note">
+          上の数は仕様書で決めた数で、検証結果の数値ではありません。
+        </p>
       </div>
     </header>
 
@@ -250,63 +488,233 @@
       <section id="problem">
         <h2>解決したかったこと</h2>
         <p>
-          社内のルールに関する質問(例:「有給って何日繰り越せる」)に、人に聞かずに答えを得たい。一方で、依頼側の条件ははっきりしていました。
+          社内のルールに関する質問(例:「有給って何日繰り越せる」)に、人に聞かずに答えを得たい。ヒアリングでは、現状は「共有フォルダを開いて、フォルダ名から当たりをつけて、ファイルを開いて
+          Ctrl+F。分からなければ Slack
+          で聞く」でした。聞かれた側の時間も取られていました。
         </p>
-        <div class="callout">
-          「間違ったことを自信満々に答えられるのが、いちばん困る」
+        <div class="cols">
+          <div class="card">
+            <h4>欲しいのは「答え」</h4>
+            <p class="note">
+              ファイル名の一覧ではなく、「経費は月末締めで翌月5日まで」のような答え。
+            </p>
+          </div>
+          <div class="card">
+            <h4>ただし「根拠」を見たい</h4>
+            <p class="note">
+              正しいかを確かめたいので、どの文書のどこに書いてあったかも見せる。
+            </p>
+          </div>
+          <div class="card">
+            <h4>いちばん困るのは作話</h4>
+            <p class="note">
+              「間違ったことを自信満々に答えられるのがいちばん困る」。
+            </p>
+          </div>
         </div>
         <p>
           そこで、「答えられること」より先に「答えないと決めること」を仕様にしました。根拠が見つからない質問には、作話せずに「回答なし」を返し、次の行動(担当部署に聞く)を画面に出します。
         </p>
       </section>
 
-      <section id="screens">
-        <h2>画面のモック</h2>
-        <p>実際の画面と同じ流れを、固定のダミーデータで再生するモックです。下の質問を選ぶと、3つの挙動(回答・回答なし・失敗)を順に確認できます。外部のAPIには接続していません。</p>
-        <div class="mock" id="mock">
-          <div class="mock-bar">社内文書検索アシスタント<span>モック(ダミーデータ)</span></div>
+      <section id="mock">
+        <h2>画面のモック(質問する)</h2>
+        <p>
+          実際の画面と同じ流れを、固定のダミーデータで再生するモックです。質問を選ぶと、検索の段階が進み、結果と、その1回の記録が出ます。外部のAPIには接続していません。
+        </p>
+        <div class="mock">
+          <div class="mock-bar">
+            社内文書検索アシスタント<span>モック(ダミーデータ)</span>
+          </div>
           <div class="mock-body">
             <div class="mock-input">
-              <input id="mq" type="text" value="" placeholder="質問を入力(5〜200文字)" readonly aria-label="質問(モック)">
-              <button id="mgo" type="button" disabled>質問する</button>
+              <input
+                id="mq"
+                type="text"
+                value=""
+                placeholder="質問を入力(5〜200文字)"
+                readonly
+                aria-label="質問(モック)"
+              />
+              <button type="button" disabled>質問する</button>
             </div>
-            <div class="mock-samples" id="msamples">
-              <button type="button" data-k="answer">有給って何日繰り越せる?</button>
-              <button type="button" data-k="none">私の有給は、あと何日残っている?</button>
-              <button type="button" data-k="quota">(利用上限に達した場合)</button>
-              <button type="button" data-k="short">短すぎる質問(「有給」)</button>
+            <div class="samples" id="qs">
+              <div class="grp">根拠のある質問</div>
+              <button type="button" data-k="a1">有給って何日繰り越せる?</button>
+              <button type="button" data-k="a2">経費の申請期限はいつ?</button>
+              <button type="button" data-k="a3">
+                開発のブランチの切り方は?
+              </button>
+              <div class="grp">根拠が無い質問(答えを作らない)</div>
+              <button type="button" data-k="n1">
+                私の有給は、あと何日残っている?
+              </button>
+              <button type="button" data-k="n2">来期の売上目標はいくら?</button>
+              <div class="grp">入力エラー(外部APIは呼ばない)</div>
+              <button type="button" data-k="e_empty">空文字</button>
+              <button type="button" data-k="e_short">
+                「有給」(4文字未満)
+              </button>
+              <button type="button" data-k="e_long">201文字の質問</button>
+              <div class="grp">失敗を起こす(9種のうち外部が原因の6種)</div>
+              <select id="fk" aria-label="失敗の種類">
+                <option value="">失敗の種類を選ぶ</option>
+                <option value="timeout">timeout</option>
+                <option value="rate_limited">rate_limited</option>
+                <option value="quota_exceeded">quota_exceeded</option>
+                <option value="embedding_error">embedding_error</option>
+                <option value="db_error">db_error</option>
+                <option value="api_error">api_error</option>
+              </select>
             </div>
             <div class="mock-out" id="mout" aria-live="polite">
               <p class="note">質問を選ぶと、ここに結果が出ます。</p>
             </div>
           </div>
         </div>
-        <p class="note">モックの文書名・本文・数値はすべて架空です。回答の文面は説明用の固定文で、AIが生成したものではありません。</p>
+        <p class="note">
+          モックの文書名・本文・数値はすべて架空です。回答の文面は説明用の固定文で、AIが生成したものではありません。
+        </p>
+
+        <h3>見てほしい点</h3>
+        <ul>
+          <li>
+            <b>根拠のある質問</b
+            >では、根拠の文書名と抜粋が並びます。この2つが実在するかは、機械で確かめます。
+          </li>
+          <li>
+            <b>根拠が無い質問</b>では、answer が空になり、理由(<code
+              >no_match</code
+            >
+            か <code>low_confidence</code>)と次の行動が出ます。
+          </li>
+          <li>
+            <b>入力エラー</b
+            >では、検索の段階をすべて飛ばします。外部APIの呼び出しも、費用も発生しません。
+          </li>
+          <li>
+            <b>失敗</b
+            >でも、画面は操作できるまま。何が起きたかと、次にどうするかを出します。
+          </li>
+          <li>どの場合も、記録に<b>質問文・回答本文・抜粋は残りません</b>。</li>
+        </ul>
+      </section>
+
+      <section id="ingest">
+        <h2>画面のモック(文書を取り込む)</h2>
+        <p>
+          運用者が文書を取り込む場面です。異常なファイルを混ぜても止まらずに続き、同じファイルを2回取り込んでも登録が増えないことを確かめます。
+        </p>
+        <div class="mock">
+          <div class="mock-bar">
+            文書の取り込み<span>モック(ダミーデータ)</span>
+          </div>
+          <div class="mock-body">
+            <p class="note">
+              対象フォルダ: サンプル文書 7ファイル(正常4、異常3)
+            </p>
+            <button type="button" class="btn primary" id="ig">
+              取り込みを実行
+            </button>
+            <div class="mock-out" id="iout" aria-live="polite">
+              <p class="note">
+                「取り込みを実行」を押してください。2回押して、結果を比べてみてください。
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="callout">
+          取り込みは外部APIを呼んで費用が出る操作なので、開発中のAIには実行させず、人が実行する決めにしています。
+        </div>
       </section>
 
       <section id="how">
         <h2>仕組み</h2>
+        <div class="lane">取り込み(運用者が手動で実行)</div>
         <div class="flow">
           <div class="step">
-            <b>1. 取り込み</b>文書を見出しで切り、長いものだけ割る
+            <b>文書</b>md / txt / pdf。1ファイル10万文字まで、50件まで
+          </div>
+          <div class="arrow">→</div>
+          <div class="step"><b>分割</b>見出しで切り、長いものだけ割る</div>
+          <div class="arrow">→</div>
+          <div class="step">
+            <b>ベクトル化</b>OpenAI の埋め込みモデル(1536次元)
+          </div>
+          <div class="arrow">→</div>
+          <div class="step"><b>保存</b>Supabase。文書名+断片番号で一意</div>
+        </div>
+        <div class="lane">質問(利用者)</div>
+        <div class="flow">
+          <div class="step">
+            <b>入力の検証</b>5〜200文字。ここで弾けば外部は呼ばない
           </div>
           <div class="arrow">→</div>
           <div class="step">
-            <b>2. ベクトル化</b>断片を埋め込みモデルで数値にする
+            <b>ベクトル化</b>文書と同じモデルで質問を数値にする
           </div>
           <div class="arrow">→</div>
-          <div class="step"><b>3. 保存</b>本文・ベクトル・出どころをDBへ</div>
+          <div class="step"><b>近い断片を取る</b>近い順に最大3件</div>
           <div class="arrow">→</div>
           <div class="step">
-            <b>4. 検索</b>質問も同じモデルで数値にし、近い断片を取る
+            <b>回答 or 回答なし</b>根拠が弱ければ生成に進まない
           </div>
           <div class="arrow">→</div>
           <div class="step">
-            <b>5. 生成</b>根拠がある場合だけ、断片をもとに回答
+            <b>根拠の検証</b>文書名は実在か、抜粋は本文にあるか
           </div>
         </div>
+
+        <h3>部品は「1ファイル1責務」</h3>
         <p>
-          取り込みは手動で、同じファイルを2回入れても登録が増えない作りです(文書名と断片番号の組を一意にしています)。質問時は、近い断片が弱い・無い場合に生成へ進まず、「回答なし」を返します。
+          部品は
+          <code>lib/</code>
+          に1責務ずつ置き、入口(route)は受けて返すだけにしています。外部サービスのSDKに触れるのは、1ファイルだけです。
+        </p>
+        <div class="scroll">
+          <table>
+            <tr>
+              <th>部品</th>
+              <th>責務</th>
+            </tr>
+            <tr>
+              <td>validate</td>
+              <td>質問の検証(空・短すぎ・長すぎ)</td>
+            </tr>
+            <tr>
+              <td>chunk</td>
+              <td>文書の分割(見出しで切り、長いものだけ割る)</td>
+            </tr>
+            <tr>
+              <td>prompt</td>
+              <td>プロンプトの組み立てと、結果の整形</td>
+            </tr>
+            <tr>
+              <td>verify</td>
+              <td>根拠の実在チェック(文書名・抜粋)</td>
+            </tr>
+            <tr>
+              <td>errors</td>
+              <td>失敗の分類(9種)と、利用者向けの文言</td>
+            </tr>
+            <tr>
+              <td>logger</td>
+              <td>本文を持たない構造化ログ</td>
+            </tr>
+            <tr>
+              <td>clients</td>
+              <td>
+                外部3サービスの最小インターフェース(テストで偽物に差し替える口)
+              </td>
+            </tr>
+            <tr>
+              <td>providers</td>
+              <td>外部SDKに触れる唯一のファイル</td>
+            </tr>
+          </table>
+        </div>
+        <p class="note">
+          外部の呼び出しを「最小インターフェース」の裏に置いたので、テストは偽物だけで完結し、外部を呼びません。
         </p>
       </section>
 
@@ -315,40 +723,52 @@
         <p>
           構成は3つの判断記録(ADR)で固定し、実装の都合では変えない運用にしました。
         </p>
-
-        <h3>① 検索方式: ベクトル検索</h3>
-        <p>
-          <b>理由:</b>
-          実際の質問は口語(「有給って何日繰り越せる」)で、文書の表記(「年次有給休暇」「繰越」)と一致しません。キーワード一致では引けないため、意味の近さで探します。
-        </p>
-        <p>
-          <b>捨てたもの:</b>
-          全文渡し(費用と文書数の増加に耐えない)、キーワード検索(口語に弱い)、ハイブリッド(今回は実装コストに見合わない)。
-        </p>
-        <p>
-          <b>引き受けた弱点:</b>
-          型番・固有名詞の完全一致には弱いこと。この用途が出たら見直します。
-        </p>
-
-        <h3>② プロバイダ: 生成は Claude、埋め込みは OpenAI</h3>
-        <p>
-          <b>理由:</b> Anthropic
-          は埋め込みAPIを提供していないため、ベクトル化は別のプロバイダが必要でした。
-        </p>
-        <p>
-          <b>引き受けたリスク:</b>
-          外部サービスが2社になり、どちらかが落ちると回答できません。失敗の種別を決めて画面に出し、操作可能なままにします。
-        </p>
-
-        <h3>③ ベクトルストア: Supabase(PostgreSQL + pgvector)</h3>
-        <p>
-          <b>理由:</b>
-          本文・ベクトル・出どころを1か所に置き、根拠の文書名と抜粋をそのまま返せるため。二重登録の防止も一意制約で表せます。
-        </p>
-        <p>
-          <b>引き受けたリスク:</b>
-          文書更新で断片数が減ると旧断片が残るため、再取り込みの前にその文書の断片を消す手順が要ります。
-        </p>
+        <div class="scroll">
+          <table>
+            <tr>
+              <th>判断</th>
+              <th>選んだもの</th>
+              <th>捨てたもの</th>
+              <th>理由</th>
+              <th>引き受けた弱点</th>
+            </tr>
+            <tr>
+              <td>検索方式</td>
+              <td>ベクトル検索</td>
+              <td>全文渡し/キーワード検索/ハイブリッド</td>
+              <td>
+                質問は口語(「有給って何日繰り越せる」)で、文書の表記(「年次有給休暇」「繰越」)と一致しない。意味の近さで探す
+              </td>
+              <td>型番・固有名詞の完全一致に弱い。その用途が出たら見直す</td>
+            </tr>
+            <tr>
+              <td>プロバイダ</td>
+              <td>生成は Claude、埋め込みは OpenAI</td>
+              <td>1社にまとめる案</td>
+              <td>
+                Anthropic
+                は埋め込みAPIを提供していない。ベクトル化には別のプロバイダが必要
+              </td>
+              <td>
+                外部が2社になり、どちらかが落ちると回答できない。失敗の種別を決めて画面に出す
+              </td>
+            </tr>
+            <tr>
+              <td>ベクトルストア</td>
+              <td>Supabase(PostgreSQL + pgvector)</td>
+              <td>—</td>
+              <td>
+                本文・ベクトル・出どころを1か所に置け、根拠をそのまま返せる。二重登録を一意制約で防げる
+              </td>
+              <td>
+                文書更新で断片数が減ると旧断片が残る。再取り込み前にその文書の断片を消す手順が要る
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="callout warn">
+          判断記録には「このとき分かっていなかったこと」を書く欄があります。分割の大きさ、近さの閾値、実測の応答時間などは、測ってから決めるものとして空欄のまま残し、推測で埋めませんでした。
+        </div>
       </section>
 
       <section id="quality">
@@ -363,36 +783,60 @@
             </tr>
             <tr>
               <td>F-1</td>
-              <td>質問を送信できる(空・短すぎ・長すぎは送らない)</td>
-              <td>不正な入力で外部APIが呼ばれないこと</td>
+              <td>
+                質問を送信できる(空・短すぎ・長すぎは送らない。処理中の二重押しを防ぐ)
+              </td>
+              <td>
+                空文字・空白4文字・201文字の3件で、外部APIが呼ばれないこと
+              </td>
             </tr>
             <tr>
               <td>F-2</td>
-              <td>根拠つきの回答。文書名が実在し、抜粋が本文に含まれる</td>
+              <td>
+                根拠つきの回答。answer
+                は600文字以内、根拠は1〜3件、文書名が実在し、抜粋が本文に含まれる
+              </td>
               <td>文書一覧との突き合わせと、部分一致(機械で判定)</td>
             </tr>
             <tr>
               <td>F-3</td>
-              <td>根拠が無いときは答えを作らない(合否を分ける基準)</td>
-              <td>対象外の質問5問すべてで、回答が空になること</td>
+              <td>根拠が無いときは答えを作らない(<b>合否を分ける基準</b>)</td>
+              <td>
+                対象外の質問5問すべてで、回答が空になること。1問でも作話したら不合格
+              </td>
             </tr>
             <tr>
               <td>F-4</td>
-              <td>文書を取り込める。異常なファイルはスキップして続行</td>
+              <td>
+                文書を取り込める。異常なファイルはスキップして続行。同じファイルは増えない
+              </td>
               <td>異常ファイルを混ぜて実行し、2回目で件数が増えないこと</td>
             </tr>
             <tr>
               <td>F-5</td>
-              <td>失敗しても画面が壊れない(9種の失敗すべて)</td>
+              <td>失敗しても画面が壊れない(9種すべて)</td>
               <td>クライアントを偽物に差し替えて各失敗を発生させる</td>
             </tr>
             <tr>
               <td>F-6</td>
-              <td>動作が記録される。ただし質問文・回答本文・抜粋は残さない</td>
-              <td>ログの型に、その欄を作らない</td>
+              <td>
+                動作が記録される。ただし質問文・回答本文・抜粋・APIキーは残さない
+              </td>
+              <td>ログの型に、その欄を作らない。書こうとすると型で落ちる</td>
             </tr>
           </table>
         </div>
+
+        <h3>「根拠の検証」で何を確かめるか</h3>
+        <ul>
+          <li>文書名が、取り込み済みの文書一覧に実在する</li>
+          <li>抜粋が、その文書の本文に部分一致で含まれる</li>
+          <li>根拠は1〜3件、answer は600文字以内、抜粋は200文字以内</li>
+          <li>満たさないものは回答として返さない</li>
+        </ul>
+        <p class="note">
+          確かめているのは「根拠が実在すること」までです。答えの読み取りが正しいかは、人が根拠を見て判断します。
+        </p>
 
         <h3>テストの方針</h3>
         <ul>
@@ -400,16 +844,54 @@
             AIの出力の文面を期待値にしない。判定するのは、形式と、根拠が実在するかだけ。
           </li>
           <li>テストは偽物(フェイク)で完結させ、外部APIを呼ばない。</li>
-          <li>テストが落ちたら、まず実装を疑う。期待値を緩めない。</li>
+          <li>
+            テストが落ちたら、まず実装を疑う。期待値を緩めない。テストは消さない。
+          </li>
         </ul>
 
         <h3>基準として置いた目標値</h3>
         <p class="note">以下は仕様書の基準で、実測値ではありません。</p>
         <ul>
           <li>応答時間: 中央値20秒以内、30秒で打ち切り(リトライは最大2回)</li>
-          <li>費用: 1回の質問あたり3円以内</li>
-          <li>質問の長さ: 5〜200文字</li>
+          <li>費用: 1回の質問あたり3円以内、月間の上限は各サービスに設定</li>
+          <li>取り込み: 50ファイルが10分以内</li>
         </ul>
+      </section>
+
+      <section id="review">
+        <h2>点検して分かったこと</h2>
+        <p>
+          実装のあと、入口(route)を対象に、固定した9観点でセキュリティを点検しました。結果は「見た範囲での指摘」で、安全の証明ではありません。対応は、人が判断する前提で<b>未判断</b>のまま並べています。
+        </p>
+        <div class="cols">
+          <div class="card">
+            <h4>認可が無い</h4>
+            <p class="note">
+              URLを知っていれば誰でも呼べて、1回ごとに有料の外部サービスが動く。公開するなら、アクセス制限と利用上限が先に要る。
+            </p>
+          </div>
+          <div class="card">
+            <h4>エラーの詳細が外に出る</h4>
+            <p class="note">
+              不足している設定の名前が、そのまま応答に載る。値は含まないが、利用者に見せる文言は分類したものだけにしたい。
+            </p>
+          </div>
+          <div class="card">
+            <h4>本文サイズの上限が無い</h4>
+            <p class="note">
+              質問の長さは検証しているが、リクエスト本文の大きさは入口では見ていない。ホスティング側の上限に頼っている。
+            </p>
+          </div>
+          <div class="card">
+            <h4>外部送信の一覧が未整備</h4>
+            <p class="note">
+              質問文や断片がどの外部サービスに送られるかを、一覧と照合できない。一覧の作成が先。
+            </p>
+          </div>
+        </div>
+        <div class="callout">
+          点検していない範囲(DBを触る部品、回答の検証の中身、画面、取り込み、ホスティング側の設定、依存パッケージ)も、レポートに明記しました。「見ていないこと」を書くのが、点検の信頼性になると考えています。
+        </div>
       </section>
 
       <section id="guardrails">
@@ -420,13 +902,15 @@
         <ul>
           <li>仕様に書かれていない判断は、推測せず質問として報告させる</li>
           <li>
-            変更するファイルを先に一覧で出させ、一覧に無いファイルは触らせない
+            変更するファイルを先に一覧で出させ、一覧に無いファイルは触らせない。1タスクで10ファイルを超えるなら止めて分割を提案させる
           </li>
           <li>外部APIを呼んで費用が出る操作(取り込み)は、人が実行する</li>
+          <li>同じエラーの修正を3回試して直らなければ、手を止めて報告する</li>
           <li>
             各タスクの終わりに型チェックとテストを通し、緑に戻してから次へ進む
           </li>
           <li>デプロイ前に確認項目を通すまで、公開操作を止める</li>
+          <li>仕様・判断記録・DB定義を、実装に合わせて書き換えない</li>
         </ul>
       </section>
 
@@ -435,15 +919,47 @@
         <div class="callout warn">
           答えが正しいかは、根拠の文を見て人が確認する前提です。根拠が実在することは機械で確かめますが、答えの読み取りの正しさまでは保証しません。
         </div>
+        <div class="scroll">
+          <table>
+            <tr>
+              <th>質問の例</th>
+              <th>できない理由</th>
+              <th>代わりに</th>
+            </tr>
+            <tr>
+              <td>私の有給は、あと何日残っている?</td>
+              <td>個人の記録は文書に入っていない</td>
+              <td>勤怠システムか担当者に確認</td>
+            </tr>
+            <tr>
+              <td>去年の経費の合計は?</td>
+              <td>文書から該当部分を探すだけで、集計や計算はしない</td>
+              <td>経理の集計表を見る</td>
+            </tr>
+            <tr>
+              <td>表や図の中の数字、画像だけのPDF</td>
+              <td>文字として読み取れない部分は探せない</td>
+              <td>原本を確認</td>
+            </tr>
+            <tr>
+              <td>新しい規程と古い規程、どちらが正しい?</td>
+              <td>文書の新旧や矛盾は判断せず、入っている文書をそのまま探す</td>
+              <td>文書の担当部署に確認</td>
+            </tr>
+            <tr>
+              <td>給与・人事評価・個人情報</td>
+              <td>取り決めにより対象外</td>
+              <td>人事の担当者に確認</td>
+            </tr>
+          </table>
+        </div>
         <ul>
-          <li>個人の記録(例:自分の有給残日数)、集計、計算には答えません。</li>
           <li>
-            文書の新旧や矛盾は判断せず、入っている文書をそのまま探します。
+            文書を更新しても自動では反映されず、手作業の取り込みが必要です(規程類は年1〜2回の更新を想定)。
           </li>
-          <li>表や図の中の数字、画像だけのPDFは探せません。</li>
-          <li>給与・人事評価・個人情報の文書は、取り決めにより対象外です。</li>
           <li>
-            文書を更新しても自動では反映されず、手作業の取り込みが必要です。
+            対象形式は md / txt / pdf のみ。Google
+            ドキュメントは書き出して取り込む必要があります。
           </li>
         </ul>
         <p class="note">
@@ -454,34 +970,74 @@
       <section id="scale">
         <h2>企業で使う場合</h2>
         <p>
-          仕様書には、条件が変わったときに見直す箇所をあらかじめ書いてあります。
+          仕様書には、条件が変わったときに見直す箇所をあらかじめ書いてあります。それをもとに、段階的な構想を描きました(いずれも構想で、実装済みではありません)。
         </p>
-        <div class="scroll">
-          <table>
-            <tr>
-              <th>変わること</th>
-              <th>見直す箇所</th>
-            </tr>
-            <tr>
-              <td>文書が50件を超える</td>
-              <td>取り込みの上限、取り込みの合格条件、所要時間の基準</td>
-            </tr>
-            <tr>
-              <td>Excelを対象に含める</td>
-              <td>対象形式、非対応形式の扱い、根拠の部分一致による判定方法</td>
-            </tr>
-            <tr>
-              <td>利用者ごとの権限が必要になる</td>
-              <td>根拠にできる文書の範囲、記録する項目</td>
-            </tr>
-            <tr>
-              <td>型番・固有名詞で引く用途が出る</td>
-              <td>
-                検索方式(キーワードとの併用)を見直し、新しい判断記録を足す
-              </td>
-            </tr>
-          </table>
+        <div class="cols">
+          <div class="card">
+            <div class="tagline">Phase 1・現在</div>
+            <h4>共通の規程を検索</h4>
+            <ul>
+              <li>対象: 社員全員が見てよい規程類(35件、上限50件)</li>
+              <li>md / txt / pdf を手動で取り込む</li>
+              <li>権限による出し分けは無し</li>
+            </ul>
+            <p class="note">
+              費用は外部APIの従量分が中心。月間の上限は各サービス側で設定。
+            </p>
+          </div>
+          <div class="card">
+            <div class="tagline">Phase 2</div>
+            <h4>権限と文書の拡張</h4>
+            <ul>
+              <li>利用者ごとの権限(根拠にできる文書の範囲)</li>
+              <li>Excel や Google ドキュメントの取り込み</li>
+              <li>型番・固有名詞向けにキーワード検索を併用</li>
+            </ul>
+            <p class="note">
+              見直す箇所: 根拠の検証の範囲、記録項目、検索方式の判断記録。
+            </p>
+          </div>
+          <div class="card">
+            <div class="tagline">Phase 3</div>
+            <h4>運用の仕組み化</h4>
+            <ul>
+              <li>文書更新の取り込みを定期化</li>
+              <li>評価用の質問セットで、回答なしの割合と作話を継続して測る</li>
+              <li>管理画面で取り込み結果と利用状況を確認</li>
+            </ul>
+            <p class="note">ここから先は、要件定義から設計し直す。</p>
+          </div>
         </div>
+      </section>
+
+      <section id="process">
+        <h2>進め方</h2>
+        <ol class="steps">
+          <li>
+            <b>曖昧な語を洗い出す</b
+            >「いい感じに」「社内の文書」「みんな」など、判定できない語を5つ挙げ、聞き返す質問に変えた。
+          </li>
+          <li>
+            <b>合否の基準を先に書く</b>受け入れ基準 F-1〜F-6
+            と、判定方法を仕様書にまとめた。実装で迷ったら、ここに戻る。
+          </li>
+          <li>
+            <b>構成を判断記録で固定する</b
+            >検索方式・プロバイダ・ベクトルストアを、捨てた案と引き受けた弱点つきで残した。
+          </li>
+          <li>
+            <b>境界の型を先に固定する</b
+            >入出力の型を先に決め、部品を1責務ずつ並行して作れるようにした。
+          </li>
+          <li>
+            <b>偽物でテストを揃える</b
+            >外部を呼ばないテストで、根拠の実在・失敗9種・ログの項目を確かめた。
+          </li>
+          <li>
+            <b>点検して、未判断を並べる</b
+            >セキュリティの観点で点検し、直すかどうかの判断は人に残した。
+          </li>
+        </ol>
       </section>
     </main>
 
@@ -490,54 +1046,340 @@
         画面・文書・数値はすべてダミーです。ソースコードは公開していません。
       </div>
     </footer>
-  <script>
+
+    <script>
       (function () {
-        var q = document.getElementById("mq");
-        var out = document.getElementById("mout");
-        var btns = document.querySelectorAll("#msamples button");
-        var scenes = {
-          answer: {
+        var $ = function (id) {
+          return document.getElementById(id);
+        };
+        var q = $("mq"),
+          out = $("mout");
+        var steps = [
+          "入力の検証",
+          "質問をベクトル化",
+          "近い断片を取得",
+          "根拠の検証",
+          "回答を表示",
+        ];
+
+        function src(doc, text) {
+          return '<div class="src"><b>' + doc + "</b><q>" + text + "</q></div>";
+        }
+        function box(title, body, kind, bad) {
+          return (
+            '<div class="box' +
+            (bad ? " bad" : "") +
+            '"><b>' +
+            title +
+            "</b>" +
+            body +
+            '<div class="note" style="color:inherit;opacity:.8">' +
+            kind +
+            "</div></div>"
+          );
+        }
+        function log(rows) {
+          var t = "";
+          for (var i = 0; i < rows.length; i++)
+            t +=
+              "<tr><td>" + rows[i][0] + "</td><td>" + rows[i][1] + "</td></tr>";
+          return (
+            '<details class="log"><summary>この質問の記録を見る(質問文・回答本文・抜粋は含まれません)</summary><table>' +
+            t +
+            "</table></details>"
+          );
+        }
+        function rows(len, hit, top, ans, fk, ms, it, ot) {
+          return [
+            [
+              "requestId",
+              "req_" + Math.random().toString(36).slice(2, 8) + "(ダミー)",
+            ],
+            ["queryChars", len],
+            ["hitCount", hit],
+            ["topScore", top],
+            ["answered", ans],
+            ["failureKind", fk],
+            ["latencyMs", ms],
+            ["inputTokens", it],
+            ["outputTokens", ot],
+          ];
+        }
+
+        var SC = {
+          a1: {
             q: "有給って何日繰り越せる?",
+            upto: 5,
+            ms: 1400,
             html:
-              "<p><b>回答:</b> 年次有給休暇は、翌年度に最大20日まで繰り越せます(ダミーの規程にもとづく)。</p>" +
-              '<div class="src"><b>就業規則_サンプル.md</b><q>「未使用の年次有給休暇は、翌年度に限り繰り越すことができる。繰越後の保有日数は、20日を上限とする。」</q></div>' +
-              '<div class="src"><b>休暇運用ガイド_サンプル.md</b><q>「繰越分は、当年度付与分より先に消化する。」</q></div>' +
+              "<p><b>回答:</b> 年次有給休暇は、翌年度に最大20日まで繰り越せます。</p>" +
+              src(
+                "就業規則_サンプル.md",
+                "「未使用の年次有給休暇は、翌年度に限り繰り越すことができる。繰越後の保有日数は、20日を上限とする。」",
+              ) +
+              src(
+                "休暇運用ガイド_サンプル.md",
+                "「繰越分は、当年度付与分より先に消化する。」",
+              ) +
               '<p class="note">根拠は最大3件。文書名の実在と、抜粋が本文に含まれることは、機械で確かめています。</p>',
+            log: rows(13, 3, "0.82", "true", "なし", 1840, 910, 132),
           },
-          none: {
-            q: "私の有給は、あと何日残っている?",
-            html:
-              '<div class="box"><b>対象の文書に記載が見つかりませんでした</b>個人の記録は、このツールが読む文書に入っていません。勤怠システムか、Slack で総務部に聞いてください。<div class="kind">reason: no_match / answer: null / sources: []</div></div>',
-          },
-          quota: {
+          a2: {
             q: "経費の申請期限はいつ?",
+            upto: 5,
+            ms: 1400,
             html:
-              '<div class="box"><b>本日の利用上限に達しました</b>画面はそのまま使えます。明日以降に再度お試しいただくか、Slack で総務部に聞いてください。<div class="kind">failureKind: quota_exceeded</div></div>',
+              "<p><b>回答:</b> 経費は月末締めで、翌月5日までに申請します。</p>" +
+              src(
+                "経費精算規程_サンプル.md",
+                "「経費の申請は月末に締め、翌月5日までに提出すること。」",
+              ) +
+              '<p class="note">「期限」と「締め」のように、言葉が違っても意味の近さで見つけます。</p>',
+            log: rows(11, 3, "0.79", "true", "なし", 1620, 860, 98),
           },
-          short: {
-            q: "有給",
+          a3: {
+            q: "開発のブランチの切り方は?",
+            upto: 5,
+            ms: 1400,
             html:
-              '<div class="box"><b>質問が短すぎます(5文字以上)</b>もう少し具体的に入力してください。この場合、外部のAPIは呼ばれません。<div class="kind">failureKind: too_short</div></div>',
+              "<p><b>回答:</b> 作業ごとに main から機能ブランチを切り、名前は「feature/」で始めます。</p>" +
+              src(
+                "開発ガイドライン_サンプル.md",
+                "「作業を始める前に main から feature/ で始まる名前のブランチを切る。」",
+              ) +
+              '<p class="note">根拠が1件でも、実在と部分一致を確かめられれば回答になります。</p>',
+            log: rows(14, 2, "0.77", "true", "なし", 1710, 790, 90),
+          },
+          n1: {
+            q: "私の有給は、あと何日残っている?",
+            upto: 3,
+            ms: 1100,
+            html:
+              box(
+                "対象の文書に記載が見つかりませんでした",
+                "個人の記録は、このツールが読む文書に入っていません。勤怠システムか、Slack で総務部に聞いてください。",
+                "reason: no_match / answer: null / sources: []",
+              ) +
+              '<p class="note">近い断片が見つからなかったため、生成には進んでいません。</p>',
+            log: rows(18, 0, "—", "false", "なし(回答なし)", 640, 0, 0),
+          },
+          n2: {
+            q: "来期の売上目標はいくら?",
+            upto: 3,
+            ms: 1100,
+            html:
+              box(
+                "対象の文書に記載が見つかりませんでした",
+                "関連しそうな断片はありましたが、根拠として弱いため、答えを作りませんでした。Slack で総務部に聞いてください。",
+                "reason: low_confidence / answer: null / sources: []",
+              ) +
+              '<p class="note">「見つかったが弱い」場合も、無理に答えません。常に「分からない」と返すだけの実装にならないよう、答えられる質問の割合も別に見る必要があります。</p>',
+            log: rows(13, 2, "0.41", "false", "なし(回答なし)", 700, 0, 0),
+          },
+          e_empty: {
+            q: "",
+            upto: 1,
+            ms: 200,
+            html: box(
+              "質問を入力してください",
+              "空文字や空白だけの質問は送信されません。",
+              "failureKind: empty_input",
+              true,
+            ),
+            log: rows(0, 0, "—", "false", "empty_input", 3, 0, 0),
+            noAPI: true,
+          },
+          e_short: {
+            q: "有給",
+            upto: 1,
+            ms: 200,
+            html: box(
+              "質問が短すぎます(5文字以上)",
+              "もう少し具体的に入力してください。",
+              "failureKind: too_short",
+              true,
+            ),
+            log: rows(2, 0, "—", "false", "too_short", 3, 0, 0),
+            noAPI: true,
+          },
+          e_long: {
+            q: "(201文字の質問をここに入力した想定)",
+            upto: 1,
+            ms: 200,
+            html: box(
+              "質問が長すぎます(200文字以内)",
+              "要点を絞って入力し直してください。",
+              "failureKind: too_long",
+              true,
+            ),
+            log: rows(201, 0, "—", "false", "too_long", 3, 0, 0),
+            noAPI: true,
           },
         };
-        var timer = null;
+
+        var FK = {
+          timeout: [
+            "時間がかかりすぎました",
+            "30秒を超えたため中断しました。しばらくしてからもう一度お試しください。",
+            2,
+          ],
+          rate_limited: [
+            "アクセスが集中しています",
+            "短時間に呼び出しが多かったため、いったん止まっています。少し待ってからもう一度お試しください。",
+            2,
+          ],
+          quota_exceeded: [
+            "利用上限に達しました",
+            "今月(または本日)の利用上限に達しました。Slack で総務部に聞いてください。",
+            2,
+          ],
+          embedding_error: [
+            "質問の解析に失敗しました",
+            "外部の解析サービスでエラーが出ました。時間をおいて再度お試しください。",
+            1,
+          ],
+          db_error: [
+            "文書の検索に失敗しました",
+            "文書の保管先でエラーが出ました。続く場合は管理者に連絡してください。",
+            2,
+          ],
+          api_error: [
+            "回答の作成に失敗しました",
+            "外部の回答サービスでエラーが出ました。時間をおいて再度お試しください。",
+            3,
+          ],
+        };
+
+        var qbtns = document.querySelectorAll("#qs button"),
+          sel = $("fk");
+        var busy = false;
         function setBusy(b) {
-          btns.forEach(function (x) { x.disabled = b; });
+          busy = b;
+          qbtns.forEach(function (x) {
+            x.disabled = b;
+          });
+          sel.disabled = b;
         }
-        function play(k) {
-          var sc = scenes[k];
-          if (!sc || timer) return;
-          q.value = sc.q;
+        function run(sc, label) {
+          if (busy) return;
           setBusy(true);
-          out.innerHTML = '<p class="spin">検索中…(処理中はボタンの二重押しを防ぎます)</p>';
-          timer = setTimeout(function () {
-            out.innerHTML = sc.html;
+          q.value = sc.q;
+          var i = 0;
+          function paint(done, html) {
+            var p = '<ul class="pipe">';
+            for (var j = 0; j < steps.length; j++) {
+              var cls = "";
+              if (sc.noAPI && j > 0) cls = " skip";
+              else if (j < i || done) cls = " on";
+              p += '<li class="' + cls.trim() + '">' + steps[j] + "</li>";
+            }
+            p += "</ul>";
+            out.innerHTML =
+              p +
+              (html ||
+                '<p class="note">処理中…(処理中はボタンの二重押しを防ぎます)</p>');
+          }
+          paint(false);
+          var total = sc.upto,
+            gap = sc.ms / (total + 1);
+          (function tick() {
+            if (i < total) {
+              i++;
+              setTimeout(tick, gap);
+              paint(false);
+              return;
+            }
+            i = total;
+            paint(true, sc.html + log(sc.log));
             setBusy(false);
-            timer = null;
-          }, k === "short" ? 200 : 900);
+          })();
         }
-        btns.forEach(function (b) {
-          b.addEventListener("click", function () { play(b.getAttribute("data-k")); });
+        qbtns.forEach(function (b) {
+          b.addEventListener("click", function () {
+            run(SC[b.getAttribute("data-k")]);
+          });
+        });
+        sel.addEventListener("change", function () {
+          var v = sel.value;
+          if (!v) return;
+          var f = FK[v];
+          run({
+            q: "経費の申請期限はいつ?",
+            upto: f[2],
+            ms: 1000,
+            html:
+              box(f[0], f[1], "failureKind: " + v, true) +
+              '<p class="note">画面は操作できるままです。別の質問をすぐに試せます。</p>',
+            log: rows(
+              11,
+              0,
+              "—",
+              "false",
+              v,
+              v === "timeout" ? 30000 : 900,
+              0,
+              0,
+            ),
+          });
+          sel.value = "";
+        });
+
+        /* ingest mock */
+        var ig = $("ig"),
+          iout = $("iout"),
+          runs = 0;
+        ig.addEventListener("click", function () {
+          runs++;
+          ig.disabled = true;
+          iout.innerHTML = '<p class="note">取り込み中…</p>';
+          setTimeout(function () {
+            var h =
+              '<div class="grid">' +
+              '<div class="card"><div class="n">' +
+              (runs === 1 ? 3 : 0) +
+              '</div><div class="l">取り込んだ</div></div>' +
+              '<div class="card"><div class="n">' +
+              (runs === 1 ? 3 : 6) +
+              '</div><div class="l">スキップした</div></div>' +
+              '<div class="card"><div class="n">1</div><div class="l">失敗した</div></div>' +
+              '<div class="card"><div class="n">28</div><div class="l">登録済みの断片(合計)</div></div></div>';
+            h +=
+              '<div class="scroll"><table><tr><th>ファイル</th><th>結果</th><th>理由</th></tr>' +
+              "<tr><td>就業規則_サンプル.md</td><td>" +
+              (runs === 1
+                ? '<span class="pill">取り込み</span>'
+                : '<span class="pill warn">スキップ</span>') +
+              "</td><td>" +
+              (runs === 1 ? "断片 12 件を登録" : "登録済み(件数は増えない)") +
+              "</td></tr>" +
+              "<tr><td>経費精算規程_サンプル.md</td><td>" +
+              (runs === 1
+                ? '<span class="pill">取り込み</span>'
+                : '<span class="pill warn">スキップ</span>') +
+              "</td><td>" +
+              (runs === 1 ? "断片 9 件を登録" : "登録済み(件数は増えない)") +
+              "</td></tr>" +
+              "<tr><td>開発ガイドライン_サンプル.md</td><td>" +
+              (runs === 1
+                ? '<span class="pill">取り込み</span>'
+                : '<span class="pill warn">スキップ</span>') +
+              "</td><td>" +
+              (runs === 1 ? "断片 7 件を登録" : "登録済み(件数は増えない)") +
+              "</td></tr>" +
+              '<tr><td>長大な議事録_サンプル.txt</td><td><span class="pill warn">スキップ</span></td><td>1ファイルの上限(100,000文字)を超えている</td></tr>' +
+              '<tr><td>予算表_サンプル.xlsx</td><td><span class="pill warn">スキップ</span></td><td>非対応の形式(md / txt / pdf のみ)</td></tr>' +
+              '<tr><td>スキャン文書_サンプル.pdf</td><td><span class="pill warn">スキップ</span></td><td>テキストが取り出せない</td></tr>' +
+              '<tr><td>出張旅費規程_サンプル.md</td><td><span class="pill bad">失敗</span></td><td>embedding_error(埋め込みAPIのエラー)。他のファイルは続行</td></tr>' +
+              "</table></div>";
+            h +=
+              '<p class="note">' +
+              (runs === 1
+                ? "異常なファイルがあっても止まらずに最後まで進みます。もう一度押して、登録済みの断片が増えないことを確かめてください。"
+                : "同じファイルをもう一度取り込んでも、登録済みの断片は 28 のまま増えません(文書名と断片番号で一意)。") +
+              "</p>";
+            iout.innerHTML = h;
+            ig.disabled = false;
+          }, 700);
         });
       })();
     </script>
