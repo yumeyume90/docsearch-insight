@@ -46,7 +46,7 @@
         padding: 0 16px;
       }
       header.hero {
-        padding: 56px 0 36px;
+        padding: 32px 0 20px;
         background: linear-gradient(180deg, #e3f5ee 0%, #f5faf8 100%);
         border-bottom: 1px solid var(--line);
       }
@@ -79,6 +79,9 @@
       section {
         padding: 44px 0;
         border-bottom: 1px solid var(--line);
+      }
+      #mock {
+        padding-top: 24px;
       }
       p {
         margin: 0 0 12px;
@@ -470,38 +473,10 @@
         <p class="lead">
           社内規程の確認にかかる問い合わせ対応を減らすための検索ツールです。回答には根拠となる文書と該当箇所を添え、根拠がない質問には回答しません。
         </p>
-        <div class="grid">
-          <div class="card">
-            <div class="n">6</div>
-            <div class="l">受け入れ基準(F-1〜F-6)</div>
-          </div>
-          <div class="card">
-            <div class="n">9</div>
-            <div class="l">想定した失敗の種類</div>
-          </div>
-          <div class="card">
-            <div class="n">5</div>
-            <div class="l">「答えない」を確かめる対象外の問い</div>
-          </div>
-          <div class="card">
-            <div class="n">9</div>
-            <div class="l">1回ごとに記録する項目(本文は残さない)</div>
-          </div>
-        </div>
-        <p class="note">画面・文書名・数値はすべてダミーです。上の数は仕様書で決めた数で、検証結果ではありません。ソースコードは公開していません。</p>
       </div>
     </header>
 
     <main class="wrap">
-      <section id="problem">
-        <h2>解決したかったこと</h2>
-        <div class="cols">
-          <div class="card"><h4>欲しいのは「答え」</h4><p class="note">ファイル名の一覧ではなく、「経費は月末締めで翌月5日まで」のような答え。</p></div>
-          <div class="card"><h4>ただし「根拠」を見たい</h4><p class="note">どの文書のどこに書いてあったかも、一緒に見せる。</p></div>
-          <div class="card"><h4>いちばん困るのは作話</h4><p class="note">根拠が無いときは、答えを作らず「回答なし」を返す。</p></div>
-        </div>
-      </section>
-
       <section id="mock">
         <h2>画面のモック(質問する)</h2>
         <p>質問を選ぶと、検索の段階が進み、結果とその1回の記録が出ます(固定のダミーデータ。外部APIには接続していません)。</p>
@@ -560,6 +535,16 @@
         </p>
 
         </section>
+
+      <section id="problem">
+        <h2>解決したかったこと</h2>
+        <div class="cols">
+          <div class="card"><h4>欲しいのは「答え」</h4><p class="note">ファイル名の一覧ではなく、「経費は月末締めで翌月5日まで」のような答え。</p></div>
+          <div class="card"><h4>ただし「根拠」を見たい</h4><p class="note">どの文書のどこに書いてあったかも、一緒に見せる。</p></div>
+          <div class="card"><h4>いちばん困るのは作話</h4><p class="note">根拠が無いときは、答えを作らず「回答なし」を返す。</p></div>
+        </div>
+      </section>
+
 
       <section id="ingest">
         <h2>画面のモック(文書を取り込む)</h2>
