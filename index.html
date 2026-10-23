@@ -441,6 +441,19 @@
           display: none;
         }
       }
+    
+      .diagram { margin: 20px 0 8px; background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 12px; overflow-x: auto; }
+      .arch { width: 100%; min-width: 640px; height: auto; display: block; }
+      .arch .nd { fill: #fff; stroke: #b9d9cd; stroke-width: 1.5; }
+      .arch .nd.key { fill: #e3f5ee; stroke: #0f8f6f; }
+      .arch .nd.prov { fill: #f2fbf7; stroke: #0f8f6f; stroke-width: 2; stroke-dasharray: 6 4; }
+      .arch .nd.ext { fill: #fffaf0; stroke: #e5c77b; }
+      .arch .nd.warn { fill: #fff4d9; stroke: #e5c77b; }
+      .arch .t { font-size: 14px; font-weight: 700; fill: #1d2b27; }
+      .arch .s { font-size: 11.5px; fill: #5d6f69; }
+      .arch .s.w { fill: #8a5a00; }
+      .arch .lane-t { font-size: 12px; font-weight: 700; fill: #0b6e55; }
+      .arch .ln { fill: none; stroke: #5d6f69; stroke-width: 1.6; marker-end: url(#ah); }
     </style>
   </head>
   <body>
@@ -456,9 +469,6 @@
         </h1>
         <p class="lead">
           社内規程などの文書に対する質問に、「どの文書のどの部分が根拠か」を添えて答える検索アシスタントです。いちばん重く見たのは、答えの上手さではなく、<b>間違ったことを自信満々に答えない</b>ことでした。
-        </p>
-        <p class="note">
-          このページは設計と検証の記録です。画面・文書名・数値はすべてダミーで、実在の企業や文書とは関係ありません。ソースコードは公開していません。
         </p>
         <div class="grid">
           <div class="card">
@@ -478,50 +488,23 @@
             <div class="l">1回ごとに記録する項目(本文は残さない)</div>
           </div>
         </div>
-        <p class="note">
-          上の数は仕様書で決めた数で、検証結果の数値ではありません。
-        </p>
+        <p class="note">画面・文書名・数値はすべてダミーです。上の数は仕様書で決めた数で、検証結果ではありません。ソースコードは公開していません。</p>
       </div>
     </header>
 
     <main class="wrap">
       <section id="problem">
         <h2>解決したかったこと</h2>
-        <p>
-          社内のルールに関する質問(例:「有給って何日繰り越せる」)に、人に聞かずに答えを得たい。ヒアリングでは、現状は「共有フォルダを開いて、フォルダ名から当たりをつけて、ファイルを開いて
-          Ctrl+F。分からなければ Slack
-          で聞く」でした。聞かれた側の時間も取られていました。
-        </p>
         <div class="cols">
-          <div class="card">
-            <h4>欲しいのは「答え」</h4>
-            <p class="note">
-              ファイル名の一覧ではなく、「経費は月末締めで翌月5日まで」のような答え。
-            </p>
-          </div>
-          <div class="card">
-            <h4>ただし「根拠」を見たい</h4>
-            <p class="note">
-              正しいかを確かめたいので、どの文書のどこに書いてあったかも見せる。
-            </p>
-          </div>
-          <div class="card">
-            <h4>いちばん困るのは作話</h4>
-            <p class="note">
-              「間違ったことを自信満々に答えられるのがいちばん困る」。
-            </p>
-          </div>
+          <div class="card"><h4>欲しいのは「答え」</h4><p class="note">ファイル名の一覧ではなく、「経費は月末締めで翌月5日まで」のような答え。</p></div>
+          <div class="card"><h4>ただし「根拠」を見たい</h4><p class="note">どの文書のどこに書いてあったかも、一緒に見せる。</p></div>
+          <div class="card"><h4>いちばん困るのは作話</h4><p class="note">根拠が無いときは、答えを作らず「回答なし」を返す。</p></div>
         </div>
-        <p>
-          そこで、「答えられること」より先に「答えないと決めること」を仕様にしました。根拠が見つからない質問には、作話せずに「回答なし」を返し、次の行動(担当部署に聞く)を画面に出します。
-        </p>
       </section>
 
       <section id="mock">
         <h2>画面のモック(質問する)</h2>
-        <p>
-          実際の画面と同じ流れを、固定のダミーデータで再生するモックです。質問を選ぶと、検索の段階が進み、結果と、その1回の記録が出ます。外部のAPIには接続していません。
-        </p>
+        <p>質問を選ぶと、検索の段階が進み、結果とその1回の記録が出ます(固定のダミーデータ。外部APIには接続していません)。</p>
         <div class="mock">
           <div class="mock-bar">
             社内文書検索アシスタント<span>モック(ダミーデータ)</span>
@@ -576,35 +559,11 @@
           モックの文書名・本文・数値はすべて架空です。回答の文面は説明用の固定文で、AIが生成したものではありません。
         </p>
 
-        <h3>見てほしい点</h3>
-        <ul>
-          <li>
-            <b>根拠のある質問</b
-            >では、根拠の文書名と抜粋が並びます。この2つが実在するかは、機械で確かめます。
-          </li>
-          <li>
-            <b>根拠が無い質問</b>では、answer が空になり、理由(<code
-              >no_match</code
-            >
-            か <code>low_confidence</code>)と次の行動が出ます。
-          </li>
-          <li>
-            <b>入力エラー</b
-            >では、検索の段階をすべて飛ばします。外部APIの呼び出しも、費用も発生しません。
-          </li>
-          <li>
-            <b>失敗</b
-            >でも、画面は操作できるまま。何が起きたかと、次にどうするかを出します。
-          </li>
-          <li>どの場合も、記録に<b>質問文・回答本文・抜粋は残りません</b>。</li>
-        </ul>
-      </section>
+        </section>
 
       <section id="ingest">
         <h2>画面のモック(文書を取り込む)</h2>
-        <p>
-          運用者が文書を取り込む場面です。異常なファイルを混ぜても止まらずに続き、同じファイルを2回取り込んでも登録が増えないことを確かめます。
-        </p>
+        <p>異常なファイルが混ざっても止まらず、同じファイルを2回取り込んでも増えないことを確かめます。</p>
         <div class="mock">
           <div class="mock-bar">
             文書の取り込み<span>モック(ダミーデータ)</span>
@@ -623,106 +582,59 @@
             </div>
           </div>
         </div>
-        <div class="callout">
-          取り込みは外部APIを呼んで費用が出る操作なので、開発中のAIには実行させず、人が実行する決めにしています。
-        </div>
-      </section>
+        </section>
 
       <section id="how">
-        <h2>仕組み</h2>
-        <div class="lane">取り込み(運用者が手動で実行)</div>
-        <div class="flow">
-          <div class="step">
-            <b>文書</b>md / txt / pdf。1ファイル10万文字まで、50件まで
-          </div>
-          <div class="arrow">→</div>
-          <div class="step"><b>分割</b>見出しで切り、長いものだけ割る</div>
-          <div class="arrow">→</div>
-          <div class="step">
-            <b>ベクトル化</b>OpenAI の埋め込みモデル(1536次元)
-          </div>
-          <div class="arrow">→</div>
-          <div class="step"><b>保存</b>Supabase。文書名+断片番号で一意</div>
-        </div>
-        <div class="lane">質問(利用者)</div>
-        <div class="flow">
-          <div class="step">
-            <b>入力の検証</b>5〜200文字。ここで弾けば外部は呼ばない
-          </div>
-          <div class="arrow">→</div>
-          <div class="step">
-            <b>ベクトル化</b>文書と同じモデルで質問を数値にする
-          </div>
-          <div class="arrow">→</div>
-          <div class="step"><b>近い断片を取る</b>近い順に最大3件</div>
-          <div class="arrow">→</div>
-          <div class="step">
-            <b>回答 or 回答なし</b>根拠が弱ければ生成に進まない
-          </div>
-          <div class="arrow">→</div>
-          <div class="step">
-            <b>根拠の検証</b>文書名は実在か、抜粋は本文にあるか
-          </div>
-        </div>
-
-        <h3>部品は「1ファイル1責務」</h3>
-        <p>
-          部品は
-          <code>lib/</code>
-          に1責務ずつ置き、入口(route)は受けて返すだけにしています。外部サービスのSDKに触れるのは、1ファイルだけです。
-        </p>
+        <h2>構成</h2>
         <div class="scroll">
           <table>
-            <tr>
-              <th>部品</th>
-              <th>責務</th>
-            </tr>
-            <tr>
-              <td>validate</td>
-              <td>質問の検証(空・短すぎ・長すぎ)</td>
-            </tr>
-            <tr>
-              <td>chunk</td>
-              <td>文書の分割(見出しで切り、長いものだけ割る)</td>
-            </tr>
-            <tr>
-              <td>prompt</td>
-              <td>プロンプトの組み立てと、結果の整形</td>
-            </tr>
-            <tr>
-              <td>verify</td>
-              <td>根拠の実在チェック(文書名・抜粋)</td>
-            </tr>
-            <tr>
-              <td>errors</td>
-              <td>失敗の分類(9種)と、利用者向けの文言</td>
-            </tr>
-            <tr>
-              <td>logger</td>
-              <td>本文を持たない構造化ログ</td>
-            </tr>
-            <tr>
-              <td>clients</td>
-              <td>
-                外部3サービスの最小インターフェース(テストで偽物に差し替える口)
-              </td>
-            </tr>
-            <tr>
-              <td>providers</td>
-              <td>外部SDKに触れる唯一のファイル</td>
-            </tr>
+            <tr><th>項目</th><th>内容</th></tr>
+            <tr><td>画面・入口</td><td>Next.js / TypeScript(route は受けて返すだけ)</td></tr>
+            <tr><td>検索方式</td><td>ベクトル検索(RAG)。近い断片を最大3件取り、根拠にする</td></tr>
+            <tr><td>埋め込み</td><td>OpenAI text-embedding-3-small(1536次元)</td></tr>
+            <tr><td>回答の生成</td><td>Claude(Haiku 系)</td></tr>
+            <tr><td>データ保存</td><td>Supabase(PostgreSQL + pgvector)。文書名と断片番号で一意</td></tr>
+            <tr><td>機密情報の管理</td><td>APIキーはサーバー側の環境変数のみ(画面・ログに出さない)</td></tr>
+            <tr><td>テスト</td><td>外部を偽物に差し替え、外部を呼ばずに完結</td></tr>
+            <tr><td>開発</td><td>AIコーディングエージェント(Claude Code)との協働開発</td></tr>
           </table>
         </div>
-        <p class="note">
-          外部の呼び出しを「最小インターフェース」の裏に置いたので、テストは偽物だけで完結し、外部を呼びません。
-        </p>
+        <div class="diagram">
+          <svg class="arch" viewBox="0 0 900 360" role="img" aria-label="構成図">
+          <defs>
+            <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#5d6f69"/></marker>
+          </defs>
+          <text x="10" y="22" class="lane-t">質問(利用者)</text>
+          <text x="10" y="232" class="lane-t">取り込み(運用者が手動で実行)</text>
+
+          <rect x="10" y="40" width="120" height="64" rx="8" class="nd"/><text x="70" y="68" class="t" text-anchor="middle">利用者の画面</text><text x="70" y="88" class="s" text-anchor="middle">質問を入力</text>
+          <rect x="170" y="40" width="130" height="64" rx="8" class="nd"/><text x="235" y="68" class="t" text-anchor="middle">API route</text><text x="235" y="88" class="s" text-anchor="middle">受けて返すだけ</text>
+          <rect x="340" y="40" width="190" height="64" rx="8" class="nd key"/><text x="435" y="62" class="t" text-anchor="middle">lib/(1ファイル1責務)</text><text x="435" y="80" class="s" text-anchor="middle">検証・プロンプト</text><text x="435" y="95" class="s" text-anchor="middle">根拠の検証・失敗分類・ログ</text>
+
+          <rect x="340" y="124" width="190" height="34" rx="17" class="nd warn"/><text x="435" y="146" class="s w" text-anchor="middle">根拠が弱い → 生成せず「回答なし」</text>
+
+          <rect x="10" y="250" width="120" height="64" rx="8" class="nd"/><text x="70" y="278" class="t" text-anchor="middle">取り込み</text><text x="70" y="298" class="s" text-anchor="middle">人が実行(費用が出る)</text>
+          <rect x="170" y="250" width="130" height="64" rx="8" class="nd"/><text x="235" y="278" class="t" text-anchor="middle">文書</text><text x="235" y="298" class="s" text-anchor="middle">md / txt / pdf</text>
+          <rect x="340" y="250" width="190" height="64" rx="8" class="nd key"/><text x="435" y="278" class="t" text-anchor="middle">lib/chunk</text><text x="435" y="298" class="s" text-anchor="middle">見出しで切り、長いものだけ割る</text>
+
+          <rect x="580" y="40" width="120" height="274" rx="10" class="nd prov"/><text x="640" y="150" class="t" text-anchor="middle">providers</text><text x="640" y="172" class="s" text-anchor="middle">外部SDKに</text><text x="640" y="188" class="s" text-anchor="middle">触れるのは</text><text x="640" y="204" class="s" text-anchor="middle">ここだけ</text>
+
+          <rect x="750" y="40" width="140" height="52" rx="8" class="nd ext"/><text x="820" y="62" class="t" text-anchor="middle">OpenAI</text><text x="820" y="80" class="s" text-anchor="middle">埋め込み(1536次元)</text>
+          <rect x="750" y="150" width="140" height="52" rx="8" class="nd ext"/><text x="820" y="172" class="t" text-anchor="middle">Claude</text><text x="820" y="190" class="s" text-anchor="middle">回答の生成</text>
+          <rect x="750" y="262" width="140" height="52" rx="8" class="nd ext"/><text x="820" y="284" class="t" text-anchor="middle">Supabase</text><text x="820" y="302" class="s" text-anchor="middle">PostgreSQL + pgvector</text>
+
+          <path d="M130 72H170" class="ln"/><path d="M300 72H340" class="ln"/><path d="M530 72H580" class="ln"/>
+          <path d="M130 282H170" class="ln"/><path d="M300 282H340" class="ln"/><path d="M530 282H580" class="ln"/>
+          <path d="M435 104V124" class="ln"/>
+          <path d="M700 66H750" class="ln"/><path d="M700 176H750" class="ln"/><path d="M700 288H750" class="ln"/>
+          <text x="725" y="58" class="s" text-anchor="middle"></text>
+        </svg>
+        </div>
+        <p class="note">質問と取り込みは、同じ「providers」を通ります。外部の呼び出しを1か所に閉じたので、テストでは偽物に差し替えられます。</p>
       </section>
 
       <section id="decisions">
         <h2>設計判断</h2>
-        <p>
-          構成は3つの判断記録(ADR)で固定し、実装の都合では変えない運用にしました。
-        </p>
         <div class="scroll">
           <table>
             <tr>
@@ -773,7 +685,7 @@
 
       <section id="quality">
         <h2>品質の担保</h2>
-        <p>合否は仕様書の受け入れ基準 F-1〜F-6 だけで決めます。</p>
+        
         <div class="scroll">
           <table>
             <tr>
